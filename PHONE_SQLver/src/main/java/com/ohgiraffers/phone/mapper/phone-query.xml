@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+    <comment />
+    <entry key="FindByName">
+        SELECT
+            A.USER_NO,
+            A.USER_NAME,
+            A.USER_ADDRESS,
+            B.CALL_NAME,
+            B.CALL_NUMBER,
+            B.MAIN_CALL
+        FROM USER_INFO A
+        JOIN CALL_NUMBER B ON A.USER_NO = B.USER_NO
+        WHERE A.USER_NAME = ?
+
+    </entry>
+    <entry key="ViewAll">
+        SELECT
+        A.USER_NO,
+        A.USER_NAME,
+        A.USER_ADDRESS,
+        B.CALL_NAME,
+        B.CALL_NUMBER,
+        B.MAIN_CALL
+        FROM USER_INFO A
+        JOIN CALL_NUMBER B ON A.USER_NO = B.USER_NO
+    </entry>
+
+    <entry key="phoneInsert1">
+        INSERT USER_INFO
+        (
+        USER_NAME,
+        USER_ADDRESS
+        )VALUES(
+            ?,
+            ?
+        )
+    </entry>
+
+    <entry key="phoneInsert2">
+        INSERT CALL_NUMBER
+        (
+        USER_NO,
+        CALL_NAME,
+        CALL_NUMBER,
+        MAIN_CALL
+        )VALUES(
+            LAST_INSERT_ID(),
+            ?,
+            ?,
+            ?
+        )
+    </entry>
+    <entry key="phoneDelete">
+        DELETE
+        FROM CALL_NUMBER
+        WHERE USER_NO IN (SELECT USER_NO FROM USER_INFO WHERE USER_NAME = ?)
+    </entry>
+
+    <entry key="phoneModify1">
+        UPDATE USER_INFO A
+        SET A.USER_NAME = ?,
+        A.USER_ADDRESS = ?
+        WHERE A.USER_NO = ?
+    </entry>
+    <entry key="phoneModify2">
+        UPDATE CALL_NUMBER B
+        SET B.CALL_NUMBER = ?
+        WHERE B.USER_NO = ?
+    </entry>
+
+</properties>
